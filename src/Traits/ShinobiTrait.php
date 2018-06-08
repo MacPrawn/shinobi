@@ -48,20 +48,23 @@ trait ShinobiTrait
     /**
      * Checks if the user has the given role.
      *
-     * @param string $slug
+     * @param string $slugs (unique slug or comma-separated list of slugs)
      *
      * @return bool
      */
-    public function isRole($slug)
+    public function isRole($slugs)
     {
-        $slug = strtolower($slug);
-
-        foreach ($this->roles as $role) {
-            if ($role->slug == $slug) {
-                return true;
+        $slugs = explode(',', strtolower($slugs));
+        if(!empty($slugs)) {
+            foreach($slugs as $slug) {
+                foreach ($this->roles as $role) {
+                    if ($role->slug == $slug) {
+                        return true;
+                    }
+                }
             }
         }
-
+        
         return false;
     }
 
